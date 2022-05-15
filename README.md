@@ -16,8 +16,8 @@
 - play table
     - pid
     - time
-    - winner
-    - loser
+    - winnerid
+    - loserid
     - scoreboard
     - bgid
 - collection table
