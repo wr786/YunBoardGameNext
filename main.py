@@ -22,7 +22,8 @@ def login_static():
 def login():
     userName = request.form["username"].strip()
     passWord = request.form["password"]
-    user = list(dbConn.execute(f"select username, password from users where username='{userName}'"))
+    user = db.get_user(userName)
+    utils.Dprint(user)
     if len(user) == 0:
         statusMsg = "用户名不存在！"
     elif encrypt(passWord) != user[0][1]:

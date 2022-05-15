@@ -17,7 +17,7 @@ connection_pool = PooledDB(
 )
 
 # 没有使用try catch块，编写代码时会跳过一些程序中的错误，不利于排查bug
-def query_one(sql, num):
+def query_one(sql):
     ch_client = connection_pool.connection()
     cur = ch_client.cursor()
     cur.execute(sql)
@@ -27,7 +27,7 @@ def query_one(sql, num):
     if res is not None:
         return res
     else:
-        return [None] * num
+        return None
 
 def query_many(sql, num):
     ch_client = connection_pool.connection()
@@ -50,3 +50,9 @@ def Fail2None(func):
             print("[ERROR]", e)
             return None
     return Fail2None
+
+@Fail2None
+def get_user(username):
+    sql = f"select name, password from users where name = '{username}'"
+    user = query_one(sql)
+    return user
