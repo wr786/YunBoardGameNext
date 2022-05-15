@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>{{userName}}, 对局 | 五子棋Zone</title>
+    <script src="{{ url_for('static',filename='js/jquery.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/general.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
+</head>
+
+<body>
+    <div class="main">
+        <div id="grid"></div>
+        <br/><br/><br/>
+        <div id="info">
+            <div class="welcome">欢迎您！
+                <div id="userName">{{userName}}</div>
+            </div>
+            <div class="rival">请输入您想要对战的对手的ID:<input class="text" id="rival_userName" /></div>
+        </div>
+    </div>
+    <footer>
+        <p>©2020 wr786</p>
+    </footer>
+</body>

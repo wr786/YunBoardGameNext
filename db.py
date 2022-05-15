@@ -1,45 +1,24 @@
 from functools import wraps
+from sqlalchemy import Column, Integer, String, create_engine
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.ext.declarative import declarative_base
 
-import MySQLdb
 from config import DATABASE_USER, DATABASE_PWD, DATABASE_HOST, DATABASE_PORT
 from config import DATABASE
-from dbutils.pooled_db import PooledDB
 
+from utils import Eprint
 
-# 使用连接池，blocking=True用处存疑
-connection_pool = PooledDB(
-    creator=MySQLdb,
-    # blocking=True,
-    host=DATABASE_HOST,
-    port=DATABASE_PORT,
-    user=DATABASE_USER,
-    password=DATABASE_PWD
-)
+Base = declarative_base()
 
-# 没有使用try catch块，编写代码时会跳过一些程序中的错误，不利于排查bug
-def query_one(sql):
-    ch_client = connection_pool.connection()
-    cur = ch_client.cursor()
-    cur.execute(sql)
-    res = cur.fetchone()
-    cur.close()
-    ch_client.close()
-    if res is not None:
-        return res
-    else:
-        return None
+class User(Base):
+    __tablename__ = 'users'
 
-def query_many(sql, num):
-    ch_client = connection_pool.connection()
-    cur = ch_client.cursor()
-    cur.execute(sql)
-    res = cur.fetchall()
-    cur.close()
-    ch_client.close()
-    if res is not None:
-        return res
-    else:
-        return [None] * num
+    uid = Column(Integer, primary_key=True)
+    name = Column(String(20))
+    password = Column(String(100))
+
+engine = create_engine(f'mysql+mysqlconnector://{DATABASE_USER}:{DATABASE_PWD}@{DATABASE_HOST}:{DATABASE_PORT}/{DATABASE}')
+DBSession = sessionmaker(bind=engine)
 
 def Fail2None(func):
     @wraps(func)
@@ -47,12 +26,12 @@ def Fail2None(func):
         try:
             return func(*args, **kwargs)
         except Exception as e:
-            print("[ERROR]", e)
+            Eprint(e)
             return None
     return Fail2None
 
 @Fail2None
 def get_user(username):
-    sql = f"select name, password from users where name = '{username}'"
-    user = query_one(sql)
+    session = DBSession()
+    user = session.query(User).filter(User.name == username).one()
     return user

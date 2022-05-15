@@ -3,8 +3,9 @@ from re import L
 from flask import Flask, session, render_template, request, redirect, send_from_directory
 import sqlalchemy
 
-from . import utils
-from . import db
+import utils
+import db
+import config
 
 app = Flask(__name__)
 
@@ -24,11 +25,15 @@ def login():
     passWord = request.form["password"]
     user = db.get_user(userName)
     utils.Dprint(user)
-    if len(user) == 0:
+    if user == None:
         statusMsg = "用户名不存在！"
-    elif encrypt(passWord) != user[0][1]:
+    elif utils.encrypt(passWord) != utils.encrypt(user.password):
         statusMsg = "密码错误！"
     else:
         session['userName'] = userName
         statusMsg = "登陆成功，正在跳转到首页…"
     return render_template('loginStatus.html', loginMsg=statusMsg)
+
+
+if __name__ == "__main__":
+    app.run(port=config.FLASK_PORT, debug=config.DEBUG)
