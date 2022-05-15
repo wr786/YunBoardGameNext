@@ -35,3 +35,10 @@ def get_user(username):
     session = DBSession()
     user = session.query(User).filter(User.name == username).one()
     return user
+
+def add_user(username, password):
+    session = DBSession()
+    new_user = User(name=username, password=password)
+    session.add(new_user)
+    session.commit()
+    session.close()
