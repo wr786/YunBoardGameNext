@@ -21,6 +21,7 @@
 </head>
 
 <body>
+    <input type="hidden" id="get_data_from_flask" value="{{ fdata }}" />
     <div id="root" class="container">
         <div class="page-header">
             <h1>云桌游 <small>Yun Board Games</small></h1>
@@ -30,43 +31,43 @@
             <span class="label label-success">最巅峰</span>
             <span>
                 <img class="avatar" :src="playerData[recordData.upperBound.player].avatar">
-                {{recordData.upperBound.player}}
+                {[recordData.upperBound.player]}
             </span>
-            <span class="rank badge">登顶次数：{{recordData.upperBound.times}}</span>
+            <span class="rank badge">登顶次数：{[recordData.upperBound.times]}</span>
         </div>
 
         <div>
             <span class="label label-danger">最垫底</span>
             <span>
                 <img class="avatar" :src="playerData[recordData.lowerBound.player].avatar">
-                {{recordData.lowerBound.player}}
+                {[recordData.lowerBound.player]}
             </span>
-            <span class="badge">垫底次数：{{recordData.lowerBound.times}}</span>
+            <span class="badge">垫底次数：{[recordData.lowerBound.times]}</span>
         </div>
 
         <div class="list-group">
             <div v-for="(YBGday, index) of YBGdata" :key="index">
-                <h3>{{YBGday.date}}</h3>
+                <h3>{[YBGday.date]}</h3>
                 <div class="list-group-item">
                     <div class="YBG-item row" v-for="(game, index) of YBGday.games" :key="index">
                         <div class="col-xs-6 col-md-3">
                             <img :src="game.img_url" />
                         </div>
                         <div class="col-xs-18 col-md-9">
-                            <h4>{{game.name}}</h4>
+                            <h4>{[game.name]}</h4>
                             <div class="score-board" v-if="game.scores">
                                 <div class="col-xs-6 col-md-3" v-for="(scores, index) of game.scores">
-                                    <div v-if="game.scores.length > 1"><span class="label label-default">第{{index+1}}轮</span></div>
+                                    <div v-if="game.scores.length > 1"><span class="label label-default">第{[index+1]}轮</span></div>
                                     <div class="score-board-item" v-for="(score, player) of scores">
                                         <img class="avatar" :src="playerData[player].avatar">
-                                        <span>{{player}} </span>
-                                        <span v-if="game.has_score" class="badge">{{score}}</span>
-                                        <span v-if="!game.has_score" class="rank badge">{{score}}</span>
+                                        <span>{[player]} </span>
+                                        <span v-if="game.has_score" class="badge">{[score]}</span>
+                                        <span v-if="!game.has_score" class="rank badge">{[score]}</span>
                                     </div>
                                 </div>
                             </div>
                             <div v-if="!game.scores">
-                                <div class="info">{{game.description}}</div>
+                                <div class="info">{[game.description]}</div>
                             </div>
                         </div>
                     </div>
@@ -75,19 +76,25 @@
         </div>
     </div>
 
+
+
     <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
     <script src="https://fastly.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
     <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
 
-    <!-- <script type="text/javascript">
-        var data;
-        $.ajaxSettings.async = false;
-        $.getJSON('./data.json', _data => {
-            data = _data
-        })
+    <script type="text/javascript">
+        var dataStr = $("#get_data_from_flask").val();
+        console.log(dataStr);
+        var data = JSON.parse(dataStr);
+        console.log(data);
+        // $.ajaxSettings.async = false;
+        // $.getJSON('./data.json', _data => {
+        //     data = _data
+        // })
         new Vue({
+            delimiters: ['{[', ']}'],
             el: "#root",
             data: {
                 YBGdata: data.data,
@@ -96,7 +103,9 @@
             },
             methods: {}
         });
-    </script> -->
+
+        console.log(playerData)
+    </script>
 
 </body>
 

@@ -2,7 +2,7 @@
 import os
 from re import L
 from flask import Flask, session, render_template, request, redirect, send_from_directory
-import sqlalchemy
+import json
 
 import utils
 import db
@@ -14,7 +14,13 @@ app = Flask(__name__)
 def index():
     if 'userName' not in session:
         return redirect("/login")
-    return render_template('index.html', userName=session['userName'])
+    with open("data.json") as f:
+        data = json.loads(f.read())
+    return render_template(
+        'index.html', 
+        userName=session['userName'],
+        fdata=json.dumps(data)
+    )
 
 @app.route('/login')
 def login_static():

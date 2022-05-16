@@ -1,0 +1,147 @@
+{
+    "records": {
+        "upperBound": {
+            "player": "wr786",
+            "times": 5
+        },
+        "lowerBound": {
+            "player": "云际流",
+            "times": 3
+        }
+    },
+    "players": {
+        "wr786": {
+            "avatar": "https://pic.imgdb.cn/item/6203eedf2ab3f51d9184edfd.png"
+        },
+        "云际流": {
+            "avatar": "https://pic.imgdb.cn/item/6203eee52ab3f51d9184f477.png"
+        },
+        "yhy836": {
+            "avatar": "https://pic.imgdb.cn/item/6203eee32ab3f51d9184f1c5.png"
+        },
+        "zzh292": {
+            "avatar": "https://pic.imgdb.cn/item/6203eee42ab3f51d9184f346.png"
+        },
+        "jzh": {
+            "avatar": "https://pic.imgdb.cn/item/6203eee12ab3f51d9184f031.png"
+        },
+        "syx": {
+            "avatar": "http://oss.gstonegames.com/static/image/user_photo/photo_1.png"
+        }
+    },
+    "data": [{
+            "date": "2022-02-12",
+            "games": [{
+                    "name": "锻骰物语",
+                    "img_url": "https://oss.gstonegames.com/static/image/gameimgEh/TB2HMo1bfnW1eJjSZFqXXa8sVXa_!!399194091508242122183.jpg",
+                    "has_score": true,
+                    "scores": [{
+                            "wr786": "165",
+                            "zzh292": "134",
+                            "syx": "113",
+                            "云际流": "108"
+                        },
+                        {
+                            "wr786": "177",
+                            "云际流": "115",
+                            "jzh": "110",
+                            "syx": "104"
+                        }
+                    ]
+                },
+                {
+                    "name": "骰子街",
+                    "img_url": "https://oss.gstonegames.com/static/image/gameimgEh/machi-koro-deluxe-edition1516179212051.jpg",
+                    "has_score": false,
+                    "scores": [{
+                            "云际流": "1"
+                        },
+                        {
+                            "wr786": "1"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "date": "2022-02-09",
+            "games": [{
+                    "name": "工业革命：伯明翰",
+                    "img_url": "https://oss.gstonegames.com/static/image/gameimgZh/202103/c_8137197805161_d17b88b5.jpg",
+                    "has_score": true,
+                    "scores": [{
+                        "wr786": "123",
+                        "云际流": "114",
+                        "yhy836": "111",
+                        "zzh292": "110"
+                    }]
+                },
+                {
+                    "name": "探险者日志",
+                    "img_url": "https://oss.gstonegames.com/static/image/gameimgZh/20200518/1589773275067_cb1d0dc7.jpg",
+                    "has_score": true,
+                    "has_rank": true,
+                    "scores": [{
+                        "zzh292": "61+",
+                        "wr786": "45",
+                        "jzh": "42",
+                        "yhy836": "39.5",
+                        "云际流": "23"
+                    }]
+                }
+            ]
+        },
+        {
+            "date": "2022-01-26",
+            "games": [{
+                    "name": "康考迪亚",
+                    "img_url": "https://oss.gstonegames.com/static/image/gameimgZh/WechatIMG181530858623998.jpeg",
+                    "has_score": false,
+                    "scores": [{
+                        "wr786": "1",
+                        "zzh292": "2",
+                        "jzh": "3",
+                        "云际流": "4"
+                    }]
+                },
+                {
+                    "name": "SCOUT!",
+                    "img_url": "https://oss.gstonegames.com/static/image/gameimgEh/202012/c_5506238137061_0e35daa6.jpg",
+                    "has_score": false,
+                    "scores": [{
+                        "云际流": "1",
+                        "yhy836": "2",
+                        "zzh292": "3",
+                        "jzh": "4",
+                        "wr786": "5"
+                    }]
+                }
+            ]
+        },
+        {
+            "date": "2022-01-23",
+            "games": [{
+                    "name": "弑君者",
+                    "img_url": "https://oss.gstonegames.com/static/image/gameimgEh/202012/c_7928541348061_a56509f7.jpg",
+                    "description": "合作游戏，最高达到♣️Queen"
+                },
+                {
+                    "name": "爆珠发明",
+                    "img_url": "https://oss.gstonegames.com/static/image/gameimgZh/202109/c_9748797671361_4f7e199c.jpg",
+                    "has_score": false,
+                    "scores": [{
+                        "zzh292": "1"
+                    }]
+                },
+                {
+                    "name": "葡萄酒庄园",
+                    "img_url": "https://oss.gstonegames.com/static/image/gameimgEh/20200510/1589081683963_a21ec976.jpg",
+                    "has_score": false,
+                    "scores": [{
+                        "云际流": "1"
+                    }]
+                }
+            ]
+        }
+    ]
+}
