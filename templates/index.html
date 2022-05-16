@@ -5,9 +5,9 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="{{ url_for('static',filename='css/general.css') }}"></link>
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/index.css') }}"></link>
     <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
-    <title>云桌游</title>
+    <title>云桌游 Next</title>
 
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
@@ -24,7 +24,10 @@
     <input type="hidden" id="get_data_from_flask" value="{{ fdata }}" />
     <div id="root" class="container">
         <div class="page-header">
-            <h1>云桌游 <small>Yun Board Games</small></h1>
+            <h1>云桌游 Next <small>Yun Board Game Next</small></h1>
+            <div>欢迎您, 用户
+                <b>{{userName}}</b> ！
+            </div>
         </div>
 
         <div>
@@ -86,9 +89,7 @@
 
     <script type="text/javascript">
         var dataStr = $("#get_data_from_flask").val();
-        console.log(dataStr);
         var data = JSON.parse(dataStr);
-        console.log(data);
         // $.ajaxSettings.async = false;
         // $.getJSON('./data.json', _data => {
         //     data = _data
