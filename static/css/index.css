@@ -1,0 +1,35 @@
+img {
+    height: 11.7em;
+    width: 11.7em;
+}
+
+.YBG-item {
+    margin: 1em;
+}
+
+.YBG-item+.YBG-item {
+    margin-top: 1em;
+}
+
+.info {
+    /* text-align: center; */
+    font-size: 1.5em;
+    color: gray;
+}
+
+.score-board-item {
+    margin: 0.2em;
+}
+
+.avatar {
+    height: 1.5em;
+    width: 1.5em;
+}
+
+.badge {
+    background-color: #9ac8e2 !important;
+}
+
+.rank {
+    background-color: #e799b0 !important;
+}

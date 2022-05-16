@@ -13,6 +13,10 @@
     - bgid
     - name
     - imgUrl
+- extension table
+    - exid
+    - name
+    - bgid
 - play table
     - pid
     - time
@@ -20,6 +24,7 @@
     - loserid
     - scoreboard
     - bgid
+    - order
 - collection table
     - uid
     - bgid

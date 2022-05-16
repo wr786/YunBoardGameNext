@@ -1,5 +1,5 @@
 from functools import wraps
-from sqlalchemy import Column, Integer, String, JSON, create_engine
+from sqlalchemy import Column, Integer, String, JSON, DateTime, create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 import datetime
@@ -29,7 +29,7 @@ class Play(Base):
     __tablename__ = 'play'
     
     pid = Column(Integer, primary_key=True)
-    time = Column(datetime.datetime)
+    time = Column(DateTime)
     winnerid = Column(Integer)
     loserid = Column(Integer)
     scoreboard = Column(JSON)
