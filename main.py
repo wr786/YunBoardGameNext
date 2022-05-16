@@ -1,7 +1,7 @@
 # author: wr786
 import os
 from re import L
-from flask import Flask, session, render_template, request, redirect, send_from_directory
+from flask import Flask, session, render_template, request, redirect, send_from_directory, url_for
 import json
 
 import utils
@@ -58,6 +58,10 @@ def register():
         statusMsg = "恭喜您！注册成功！"
     return render_template('registerStatus.html', registerMsg=statusMsg)
 
+@app.route('/logout', methods=['GET'])
+def logout():
+    del session['userName']
+    return redirect(url_for('login'))
 
 if __name__ == "__main__":
     app.secret_key = os.urandom(24)
