@@ -35,7 +35,7 @@
             </div>
         </div>
 
-        <div>
+        <!-- <div>
             <span class="label label-success">最巅峰</span>
             <span>
                 <img class="avatar" :src="playerData[recordData.upperBound.player].avatar">
@@ -51,32 +51,32 @@
                 {[recordData.lowerBound.player]}
             </span>
             <span class="badge">垫底次数：{[recordData.lowerBound.times]}</span>
-        </div>
+        </div> -->
 
         <div class="list-group">
-            <div v-for="(YBGday, index) of YBGdata" :key="index">
-                <h3>{[YBGday.date]}</h3>
+            <div v-for="(playDate, index) of playData" :key="index">
+                <h3>{[playDate.date]}</h3>
                 <div class="list-group-item">
-                    <div class="YBG-item row" v-for="(game, index) of YBGday.games" :key="index">
+                    <div class="YBG-item row" v-for="(play, index) of playDate.plays" :key="index">
                         <div class="col-xs-6 col-md-3">
-                            <img :src="game.img_url" />
+                            <img :src="play.img_url" />
                         </div>
                         <div class="col-xs-18 col-md-9">
-                            <h4>{[game.name]}</h4>
-                            <div class="score-board" v-if="game.scores">
-                                <div class="col-xs-6 col-md-3" v-for="(scores, index) of game.scores">
-                                    <div v-if="game.scores.length > 1"><span class="label label-default">第{[index+1]}轮</span></div>
-                                    <div class="score-board-item" v-for="(score, player) of scores">
-                                        <img class="avatar" :src="playerData[player].avatar">
-                                        <span>{[player]} </span>
-                                        <span v-if="game.has_score" class="badge">{[score]}</span>
-                                        <span v-if="!game.has_score" class="rank badge">{[score]}</span>
+                            <h4>{[play.name]}</h4>
+                            <div class="score-board" v-if="play.extra">
+                                <div class="col-xs-6 col-md-3" v-for="(extra, index) of play.extra">
+                                    <div v-if="play.extra.length > 1"><span class="label label-default">第{[index+1]}轮</span></div>
+                                    <div class="score-board-item" v-for="(ext, index) of extra">
+                                        <img class="avatar" :src="userData[ext.username].avatarUrl">
+                                        <span>{[ext.username]} </span>
+                                        <span class="badge">{[ext.score]}</span>
+                                        <span class="pink badge" v-if="ext.order == 1">先手</span>
                                     </div>
                                 </div>
                             </div>
-                            <div v-if="!game.scores">
+                            <!-- <div v-if="!game.scores">
                                 <div class="info">{[game.description]}</div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -103,9 +103,8 @@
             delimiters: ['{[', ']}'],
             el: "#root",
             data: {
-                YBGdata: data.data,
-                playerData: data.players,
-                recordData: data.records
+                userData: data.userData,
+                playData: data.playData
             },
             methods: {}
         });

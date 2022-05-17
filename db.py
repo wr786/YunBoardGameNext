@@ -34,6 +34,7 @@ class Play(Base):
     winnerid = Column(Integer)
     loserid = Column(Integer)
     scoreboard = Column(JSON)
+    order = Column(JSON)
 
 class Collection(Base):
     __tablename__ = 'collection'
@@ -74,12 +75,24 @@ def get_user(username):
     user = session.query(User).filter(User.name == username).one()
     return user
 
+@Fail2None
+def get_user_by_uid(uid):
+    session = DBSession()
+    user = session.query(User).filter(User.uid == uid).one()
+    return user
+
 def add_user(username, password):
     session = DBSession()
     new_user = User(name=username, password=password)
     session.add(new_user)
     session.commit()
     session.close()
+
+@Fail2None
+def get_all_users():
+    session = DBSession()
+    users = session.query(User).all()
+    return users
 
 def add_board_game(name, imgUrl):
     session = DBSession()
@@ -95,7 +108,33 @@ def get_board_game_by_name(name):
     return board_game
 
 @Fail2None
+def get_board_game_by_name(name):
+    session = DBSession()
+    board_game = session.query(BoardGame).filter(BoardGame.name==name).one()
+    return board_game
+
+@Fail2None
+def get_board_game_by_id(bgid):
+    session = DBSession()
+    board_game = session.query(BoardGame).filter(BoardGame.bgid==bgid).one()
+    return board_game
+
+@Fail2None
 def get_all_board_games():
     session = DBSession()
     bgs = session.query(BoardGame).all()
     return bgs
+
+def modify_avatar_url(name, avatarUrl):
+    session = DBSession()
+    user = session.query(User).filter(User.name==name).one()
+    user.avatarUrl = avatarUrl
+    session.add(user)
+    session.commit()
+    session.close()
+
+@Fail2None
+def get_all_plays():
+    session = DBSession()
+    plays = session.query(Play).all()
+    return plays

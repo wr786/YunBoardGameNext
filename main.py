@@ -3,6 +3,7 @@ import os
 from re import L
 from flask import Flask, session, render_template, request, redirect, send_from_directory, url_for
 import json
+import datetime
 
 import utils
 import db
@@ -15,6 +16,66 @@ def index():
         return redirect("/login")
     with open("data.json") as f:
         data = json.loads(f.read())
+    users = db.get_all_users()
+    plays = db.get_all_plays()
+    userData = {}
+    for user in users:
+        userData[user.name] = {
+            'avatarUrl': user.avatarUrl
+        }
+
+    playData = []
+    playDataByDate = {}
+    for play in plays:
+        date = play.time.strftime('%Y-%m-%d')
+        if date not in playDataByDate.keys():
+            playDataByDate[date] = []
+        boardGame = db.get_board_game_by_id(play.bgid)
+        scores = []
+        for score in play.scoreboard:
+            tmpScore = {}
+            for uid in score.keys():
+                user = db.get_user_by_uid(int(uid))
+                tmpScore[user.name] = score[uid]
+            scores.append(tmpScore)
+        orders = []
+        for order in play.order:
+            tmpOrder = {}
+            for uid in order.keys():
+                user = db.get_user_by_uid(int(uid))
+                tmpOrder[user.name] = order[uid]
+            orders.append(tmpOrder)
+
+        extra = []
+        for i in range(len(scores)):
+            score = scores[i]
+            order = orders[i]
+            tmpExtra = []
+            for u in score.keys():
+                tmpExtra.append({
+                    "username": u,
+                    "score": score[u],
+                    "order": order[u]
+                })
+            extra.append(tmpExtra)
+
+        playDataByDate[date].append({
+            "name": boardGame.name,
+            "img_url": boardGame.imgUrl,
+            "extra": extra
+        })
+
+    for date in playDataByDate.keys():
+        playData.append({
+            "date": date,
+            "plays": playDataByDate[date]
+        })
+        
+    data = {
+        "userData": userData,
+        "playData": playData
+    }
+
     return render_template(
         'index.html', 
         userName=session['userName'],
