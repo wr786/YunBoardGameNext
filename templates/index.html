@@ -30,7 +30,9 @@
                 <button type="button" class="btn btn-default"><a href="/bglist">桌游列表</a></button>
             </div>
             <div>欢迎您, 用户
+                <img class="avatar" :src="userData['{{userName}}'].avatarUrl">
                 <b>{{userName}}</b> ！
+                <button onclick="changeAvatar()">修改头像</button>
                 <a href="/logout">登出</a>
             </div>
         </div>
@@ -108,6 +110,16 @@
             },
             methods: {}
         });
+
+        function changeAvatar() {
+            var avatarUrl = prompt("请粘贴新的头像的图片地址：", "")
+            $.post('/changeAvatar', {
+                avatarUrl: avatarUrl
+            }, function(data) {
+                alert(data)
+                location.reload();
+            })
+        }
     </script>
 
 </body>

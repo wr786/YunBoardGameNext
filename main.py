@@ -153,6 +153,14 @@ def add_board_game():
     db.add_board_game(name, imgUrl)
     return "添加成功！"
 
+@app.route('/changeAvatar', methods=['POST'])
+def change_avatar():
+    try:
+        avatarUrl = request.form["avatarUrl"].strip()
+        db.modify_avatar_url(session['userName'], avatarUrl)
+        return "修改成功！"
+    except Exception as e:
+        return "修改失败！" + str(e)
 
 if __name__ == "__main__":
     app.secret_key = os.urandom(24)

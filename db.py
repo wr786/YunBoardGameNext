@@ -56,7 +56,7 @@ class Extension(Base):
     bgid = Column(Integer)
 
 
-engine = create_engine(f'mysql+mysqlconnector://{DATABASE_USER}:{DATABASE_PWD}@{DATABASE_HOST}:{DATABASE_PORT}/{DATABASE}')
+engine = create_engine(f'mysql+mysqlconnector://{DATABASE_USER}:{DATABASE_PWD}@{DATABASE_HOST}:{DATABASE_PORT}/{DATABASE}', pool_size=100, max_overflow=20)
 DBSession = sessionmaker(bind=engine)
 
 def Fail2None(func):
