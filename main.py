@@ -22,6 +22,24 @@ def index():
         fdata=json.dumps(data)
     )
 
+@app.route('/bglist')
+def board_game_list():
+    if 'userName' not in session:
+        return redirect("/login")
+    bgs = db.get_all_board_games()
+    boardGameInfos = []
+    for bg in bgs:
+        boardGameInfos.append({
+            "name": bg.name,
+            "imgUrl": bg.imgUrl
+        })
+    utils.Dprint(boardGameInfos)
+    return render_template(
+        'bglist.html', 
+        userName=session['userName'],
+        fdata=json.dumps(boardGameInfos)
+    )
+
 @app.route('/login')
 def login_static():
     return app.send_static_file('login.html')
@@ -62,6 +80,14 @@ def register():
 def logout():
     del session['userName']
     return redirect(url_for('login'))
+
+@app.route('/addBoardGame', methods=['POST'])
+def add_board_game():
+    name = request.form["name"]
+    imgUrl = request.form["imgUrl"]
+    db.add_board_game(name, imgUrl)
+    return 200, "OK"
+
 
 if __name__ == "__main__":
     app.secret_key = os.urandom(24)

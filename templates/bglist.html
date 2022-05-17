@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{{ url_for('static',filename='css/index.css') }}"></link>
     <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
-    <title>云桌游 Next</title>
+    <title>桌游列表｜云桌游 Next</title>
 
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
@@ -24,7 +24,7 @@
     <input type="hidden" id="get_data_from_flask" value="{{ fdata }}" />
     <div id="root" class="container">
         <div class="page-header">
-            <h1>云桌游 Next <small>Yun Board Game Next</small></h1>
+            <h1>桌游列表｜云桌游 Next <small>Yun Board Game Next</small></h1>
             <div class="btn-group" role="group" aria-label="..." style="margin-bottom: 0.3em;">
                 <button type="button" class="btn btn-default"><a href="/">主页</a></button>
                 <button type="button" class="btn btn-default"><a href="/bglist">桌游列表</a></button>
@@ -35,49 +35,14 @@
             </div>
         </div>
 
-        <div>
-            <span class="label label-success">最巅峰</span>
-            <span>
-                <img class="avatar" :src="playerData[recordData.upperBound.player].avatar">
-                {[recordData.upperBound.player]}
-            </span>
-            <span class="rank badge">登顶次数：{[recordData.upperBound.times]}</span>
-        </div>
-
-        <div>
-            <span class="label label-danger">最垫底</span>
-            <span>
-                <img class="avatar" :src="playerData[recordData.lowerBound.player].avatar">
-                {[recordData.lowerBound.player]}
-            </span>
-            <span class="badge">垫底次数：{[recordData.lowerBound.times]}</span>
-        </div>
-
         <div class="list-group">
-            <div v-for="(YBGday, index) of YBGdata" :key="index">
-                <h3>{[YBGday.date]}</h3>
-                <div class="list-group-item">
-                    <div class="YBG-item row" v-for="(game, index) of YBGday.games" :key="index">
-                        <div class="col-xs-6 col-md-3">
-                            <img :src="game.img_url" />
-                        </div>
-                        <div class="col-xs-18 col-md-9">
-                            <h4>{[game.name]}</h4>
-                            <div class="score-board" v-if="game.scores">
-                                <div class="col-xs-6 col-md-3" v-for="(scores, index) of game.scores">
-                                    <div v-if="game.scores.length > 1"><span class="label label-default">第{[index+1]}轮</span></div>
-                                    <div class="score-board-item" v-for="(score, player) of scores">
-                                        <img class="avatar" :src="playerData[player].avatar">
-                                        <span>{[player]} </span>
-                                        <span v-if="game.has_score" class="badge">{[score]}</span>
-                                        <span v-if="!game.has_score" class="rank badge">{[score]}</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div v-if="!game.scores">
-                                <div class="info">{[game.description]}</div>
-                            </div>
-                        </div>
+            <div class="list-group-item">
+                <div class="YBG-item row" v-for="(game, index) of boardGameInfos" :key="index">
+                    <div class="col-xs-6 col-md-3">
+                        <img :src="game.imgUrl" />
+                    </div>
+                    <div class="col-xs-18 col-md-9">
+                        <h1>{[game.name]}</h1>
                     </div>
                 </div>
             </div>
@@ -95,17 +60,11 @@
     <script type="text/javascript">
         var dataStr = $("#get_data_from_flask").val();
         var data = JSON.parse(dataStr);
-        // $.ajaxSettings.async = false;
-        // $.getJSON('./data.json', _data => {
-        //     data = _data
-        // })
         new Vue({
             delimiters: ['{[', ']}'],
             el: "#root",
             data: {
-                YBGdata: data.data,
-                playerData: data.players,
-                recordData: data.records
+                boardGameInfos: data
             },
             methods: {}
         });

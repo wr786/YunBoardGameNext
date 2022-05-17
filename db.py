@@ -80,3 +80,16 @@ def add_user(username, password):
     session.add(new_user)
     session.commit()
     session.close()
+
+def add_board_game(name, imgUrl):
+    session = DBSession()
+    new_board_game = BoardGame(name=name, imgUrl=imgUrl)
+    session.add(new_board_game)
+    session.commit()
+    session.close()
+
+@Fail2None
+def get_all_board_games():
+    session = DBSession()
+    bgs = session.query(BoardGame).all()
+    return bgs
