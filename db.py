@@ -29,11 +29,11 @@ class Play(Base):
     __tablename__ = 'play'
     
     pid = Column(Integer, primary_key=True)
+    bgid = Column(Integer)
     time = Column(DateTime)
     winnerid = Column(Integer)
     loserid = Column(Integer)
     scoreboard = Column(JSON)
-    bgid = Column(Integer)
 
 class Collection(Base):
     __tablename__ = 'collection'
@@ -46,6 +46,13 @@ class Participate(Base):
 
     uid = Column(Integer, primary_key=True)
     pid = Column(Integer, primary_key=True)
+
+class Extension(Base):
+    __tablename__ = 'extension'
+
+    exid = Column(Integer, primary_key=True)
+    name = Column(String(50))
+    bgid = Column(Integer)
 
 
 engine = create_engine(f'mysql+mysqlconnector://{DATABASE_USER}:{DATABASE_PWD}@{DATABASE_HOST}:{DATABASE_PORT}/{DATABASE}')

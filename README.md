@@ -20,10 +20,10 @@
 - play table
     - pid
     - time
+    - bgid
     - winnerid
     - loserid
     - scoreboard
-    - bgid
     - order
 - collection table
     - uid
