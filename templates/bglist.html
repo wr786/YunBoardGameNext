@@ -47,6 +47,40 @@
                 </div>
             </div>
         </div>
+
+        <button class="btn btn-success btn-lg" data-toggle="modal" data-target="#myModal">
+            加入桌游
+        </button>
+        <!-- 模态框（Modal） -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">
+                            加入新的桌游到列表中
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        <label for="basic-url">桌游名称</label>
+                        <input type="text" class="form-control" aria-describedby="basic-addon3" id="bgname">
+                        <label for="basic-url">桌游图片地址</label>
+                        <input type="text" class="form-control" aria-describedby="basic-addon3" id="bgimgUrl">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                        </button>
+                        <button type="button" class="btn btn-primary" onclick="addbg()">
+                            提交更改
+                        </button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal -->
+        </div>
     </div>
 
 
@@ -68,6 +102,18 @@
             },
             methods: {}
         });
+
+        function addbg() {
+            var bgname = $("#bgname").val();
+            var bgimgUrl = $("#bgimgUrl").val();
+            $.post("/addBoardGame", {
+                name: bgname,
+                imgUrl: bgimgUrl
+            }, function(data) {
+                alert(data)
+                location.reload();
+            })
+        }
     </script>
 
 </body>

@@ -7,7 +7,6 @@ import json
 import utils
 import db
 import config
-
 app = Flask(__name__)
 
 @app.route('/')
@@ -83,10 +82,15 @@ def logout():
 
 @app.route('/addBoardGame', methods=['POST'])
 def add_board_game():
-    name = request.form["name"]
-    imgUrl = request.form["imgUrl"]
+    name = request.form["name"].strip()
+    imgUrl = request.form["imgUrl"].strip()
+    bg = db.get_board_game_by_name(name)
+    if bg != None:
+        return "该桌游已存在！"
+    if imgUrl == "":
+        imgUrl = "https://avatars.githubusercontent.com/u/32223541?v=4"
     db.add_board_game(name, imgUrl)
-    return 200, "OK"
+    return "添加成功！"
 
 
 if __name__ == "__main__":

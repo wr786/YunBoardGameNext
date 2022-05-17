@@ -89,6 +89,12 @@ def add_board_game(name, imgUrl):
     session.close()
 
 @Fail2None
+def get_board_game_by_name(name):
+    session = DBSession()
+    board_game = session.query(BoardGame).filter(BoardGame.name==name).one()
+    return board_game
+
+@Fail2None
 def get_all_board_games():
     session = DBSession()
     bgs = session.query(BoardGame).all()
