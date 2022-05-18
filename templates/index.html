@@ -38,7 +38,7 @@
         </div>
 
         <!-- <div>
-            <span class="label label-success">最巅峰</span>
+            <span class="label labsuccess">最巅峰</span>
             <span>
                 <img class="avatar" :src="playerData[recordData.upperBound.player].avatar">
                 {[recordData.upperBound.player]}
@@ -47,7 +47,7 @@
         </div>
 
         <div>
-            <span class="label label-danger">最垫底</span>
+            <span class="label labdanger">最垫底</span>
             <span>
                 <img class="avatar" :src="playerData[recordData.lowerBound.player].avatar">
                 {[recordData.lowerBound.player]}
@@ -67,7 +67,7 @@
                             <h4>{[play.name]}</h4>
                             <div class="score-board" v-if="play.extra">
                                 <div class="col-xs-6 col-md-3" v-for="(extra, index) of play.extra">
-                                    <div v-if="play.extra.length > 1"><span class="label label-default">第{[index+1]}轮</span></div>
+                                    <div v-if="play.extra.length > 1"><span class="label labdefault">第{[index+1]}轮</span></div>
                                     <div class="score-board-item" v-for="(ext, index) of extra">
                                         <img class="avatar" :src="userData[ext.username].avatarUrl">
                                         <span>{[ext.username]} </span>
@@ -84,6 +84,46 @@
                 </div>
             </div>
         </div>
+
+        <button class="btn btn-success btn-lg" data-toggle="modal" data-target="#myModal">
+            新增对局记录
+        </button>
+        <!-- 模态框（Modal） -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">
+                            记录新的对局
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+
+                        <label for="basic-url">对局时间</label>
+                        <input type="text" class="form-control" aria-describedby="basic-addon3" id="date">
+                        <label for="basic-url">桌游名称</label>
+                        <input type="text" class="form-control" aria-describedby="basic-addon3" id="bgname">
+                        <label for="basic-url">分数表（用json表示，问就是产能不足，没时间做动态新增表项）</label>
+                        <textarea type="text" class="form-control" aria-describedby="basic-addon3" id="scores"></textarea>
+                        <label for="basic-url">顺序表（用json表示，问就是产能不足，没时间做动态新增表项）</label>
+                        <textarea type="text" class="form-control" aria-describedby="basic-addon3" id="order"></textarea>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                        </button>
+                        <button type="button" class="btn btn-primary" onclick="addPlay()">
+                            提交
+                        </button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal -->
+        </div>
     </div>
 
 
@@ -97,6 +137,7 @@
     <script type="text/javascript">
         var dataStr = $("#get_data_from_flask").val();
         var data = JSON.parse(dataStr);
+        console.log(data);
         // $.ajaxSettings.async = false;
         // $.getJSON('./data.json', _data => {
         //     data = _data
@@ -113,8 +154,26 @@
 
         function changeAvatar() {
             var avatarUrl = prompt("请粘贴新的头像的图片地址：", "")
-            $.post('/changeAvatar', {
-                avatarUrl: avatarUrl
+            if (avatarUrl) {
+                $.post('/changeAvatar', {
+                    avatarUrl: avatarUrl
+                }, function(data) {
+                    alert(data)
+                    location.reload();
+                })
+            }
+        }
+
+        function addPlay() {
+            var date = $("#date").val();
+            var bgname = $("#bgname").val();
+            var scores = $("#scores").val();
+            var order = $("#order").val();
+            $.post("/addPlay", {
+                date: date,
+                bgname: bgname,
+                scores: scores,
+                order: order
             }, function(data) {
                 alert(data)
                 location.reload();

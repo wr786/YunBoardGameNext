@@ -1,4 +1,5 @@
 from functools import wraps
+from requests import session
 from sqlalchemy import Column, Integer, String, JSON, DateTime, create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
@@ -138,3 +139,16 @@ def get_all_plays():
     session = DBSession()
     plays = session.query(Play).all()
     return plays
+
+def add_play(date, bgid, winnerid, loserid, scoreboard, order):
+    session = DBSession()
+    session.add(Play(
+        time=datetime.datetime.strptime(date, "%Y-%m-%d"), 
+        bgid=bgid, 
+        winnerid=winnerid, 
+        loserid=loserid, 
+        scoreboard=scoreboard, 
+        order=order
+    ))
+    session.commit()
+    session.close()

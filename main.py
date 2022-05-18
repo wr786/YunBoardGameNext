@@ -1,6 +1,7 @@
 # author: wr786
 import os
 from re import L
+import re
 from flask import Flask, session, render_template, request, redirect, send_from_directory, url_for
 import json
 import datetime
@@ -161,6 +162,49 @@ def change_avatar():
         return "修改成功！"
     except Exception as e:
         return "修改失败！" + str(e)
+
+@app.route('/addPlay', methods=['POST'])
+def add_play():
+    try:
+        date = request.form["date"].strip()
+        bgname = request.form["bgname"].strip()
+        oScores = json.loads(request.form["scores"])
+        oOrder = json.loads(request.form["order"])
+
+        bgid = db.get_board_game_by_name(bgname).bgid
+        nScores = []
+        totalScore = {}
+        for score in oScores:
+            nScore = {} 
+            for uname in score.keys():
+                user = db.get_user(uname)
+                nScore[str(user.uid)] = score[uname]     
+                if str(user.uid) not in totalScore.keys():
+                    totalScore[str(user.uid)] = score[uname]   
+                else:
+                    totalScore[str(user.uid)] += score[uname]   
+            nScores.append(nScore) 
+        winner = list(totalScore.keys())[0]
+        loser = list(totalScore.keys())[0]
+        for uid in totalScore.keys():
+            if totalScore[str(uid)] > totalScore[winner]:
+                winner = uid
+            if totalScore[str(uid)] < totalScore[loser]:
+                loser = uid
+        nOrders = []
+        for order in oOrder:
+            nOrder = {}
+            for uname in score.keys():
+                user = db.get_user(uname)
+                nOrder[str(user.uid)] = order[uname]
+            nOrders.append(nOrder)
+        db.add_play(date, bgid, winner, loser, nScores, nOrders)
+        return "添加成功!"
+    except Exception as e:
+        utils.Eprint(e)
+        return "添加失败！" + str(e)
+
+
 
 if __name__ == "__main__":
     app.secret_key = os.urandom(24)
