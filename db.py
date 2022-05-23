@@ -3,6 +3,7 @@ from requests import session
 from sqlalchemy import Column, Integer, String, JSON, DateTime, create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
+from pymysql.converters import escape_string
 import datetime
 
 from config import DATABASE_USER, DATABASE_PWD, DATABASE_HOST, DATABASE_PORT
@@ -73,7 +74,10 @@ def Fail2None(func):
 @Fail2None
 def get_user(username):
     session = DBSession()
-    user = session.query(User).filter(User.name == username).one()
+    user = session.execute(f"""
+        SELECT * from user where user.name == {escape_string(username)}
+    """)
+    # user = session.query(User).filter(User.name == username).one()
     return user
 
 @Fail2None

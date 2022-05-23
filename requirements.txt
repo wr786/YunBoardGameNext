@@ -3,3 +3,4 @@ Flask
 jinja2
 MySQL-connector-python
 sqlalchemy
+pymysql >= 1.0.0
