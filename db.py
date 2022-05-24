@@ -186,4 +186,32 @@ def add_play(date, bgid, winnerid, loserid, scoreboard, order):
     #     order=order
     # ))
     session.commit()
+    play = session.execute(f"""
+        SELECT * from play where time='{datetime.datetime.strptime(date, "%Y-%m-%d")}' and bgid={bgid}
+    """).fetchone()
+    session.close()
+    return play.pid
+
+def add_participate(uid, pid):
+    session = DBSession()
+    session.execute(f"""
+        REPLACE into participate(uid, pid) values({uid}, {pid})
+    """)
+    session.commit()
+    session.close()
+
+def add_extension(bgid, exname):
+    session = DBSession()
+    session.execute(f"""
+        REPLACE into extension(name, bgid) values('{escape_string(exname)}', {bgid})
+    """)
+    session.commit()
+    session.close()
+
+def add_collection(uid, bgid):
+    session = DBSession()
+    session.execute(f"""
+        REPLACE into collection(uid, bgid) values({uid}, {bgid})
+    """)
+    session.commit()
     session.close()

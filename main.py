@@ -155,6 +155,32 @@ def add_board_game():
     db.add_board_game(name, imgUrl)
     return "添加成功！"
 
+@app.route('/addExtension', methods=['POST'])
+def add_extension():
+    try:
+        bgname = request.form["bgname"].strip()
+        exname = request.form["exname"].strip()
+        bg = db.get_board_game_by_name(bgname)
+        if bg == None:
+            return "没有找到该桌游！"
+        db.add_extension(bg.bgid, exname)
+        return "添加成功！"
+    except Exception as e:
+        return f"[ERROR] {e}"
+
+@app.route('/addCollection', methods=['POST'])
+def add_collection():
+    try:
+        bgname = request.form["bgname"].strip()
+        username = session['userName']
+        bg = db.get_board_game_by_name(bgname)
+        user = db.get_user(username)
+        db.add_collection(user.uid, bg.bgid)
+        return "添加成功！"
+    except Exception as e:
+        return f"[ERROR] {e}"
+
+
 @app.route('/changeAvatar', methods=['POST'])
 def change_avatar():
     try:
@@ -175,6 +201,7 @@ def add_play():
         bgid = db.get_board_game_by_name(bgname).bgid
         nScores = []
         totalScore = {}
+        playerList = []
         for score in oScores:
             nScore = {} 
             for uname in score.keys():
@@ -188,6 +215,7 @@ def add_play():
         winner = list(totalScore.keys())[0]
         loser = list(totalScore.keys())[0]
         for uid in totalScore.keys():
+            playerList.append(uid)
             if totalScore[str(uid)] > totalScore[winner]:
                 winner = uid
             if totalScore[str(uid)] < totalScore[loser]:
@@ -199,7 +227,10 @@ def add_play():
                 user = db.get_user(uname)
                 nOrder[str(user.uid)] = order[uname]
             nOrders.append(nOrder)
-        db.add_play(date, bgid, winner, loser, nScores, nOrders)
+        pid = db.add_play(date, bgid, winner, loser, nScores, nOrders)
+        playerList = set(playerList)
+        for uid in playerList:
+            db.add_participate(uid, pid)
         return "添加成功!"
     except Exception as e:
         utils.Eprint(e)

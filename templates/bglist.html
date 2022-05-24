@@ -81,6 +81,72 @@
             </div>
             <!-- /.modal -->
         </div>
+
+        <button class="btn btn-success btn-lg" data-toggle="modal" data-target="#myModal1">
+            记录扩展
+        </button>
+        <!-- 模态框（Modal） -->
+        <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">
+                            给桌游加入新的扩展
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        <label for="basic-url">桌游名称</label>
+                        <input type="text" class="form-control" aria-describedby="basic-addon3" id="bgname1">
+                        <label for="basic-url">扩展名称</label>
+                        <input type="text" class="form-control" aria-describedby="basic-addon3" id="exname1">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                        </button>
+                        <button type="button" class="btn btn-primary" onclick="addex()">
+                            提交
+                        </button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal -->
+        </div>
+
+        <button class="btn btn-success btn-lg" data-toggle="modal" data-target="#myModal2">
+            记录拥有
+        </button>
+        <!-- 模态框（Modal） -->
+        <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">
+                            记录你拥有这款桌游：
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        <label for="basic-url">桌游名称</label>
+                        <input type="text" class="form-control" aria-describedby="basic-addon3" id="bgname2">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                        </button>
+                        <button type="button" class="btn btn-primary" onclick="addCollection()">
+                            提交
+                        </button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal -->
+        </div>
     </div>
 
 
@@ -109,6 +175,28 @@
             $.post("/addBoardGame", {
                 name: bgname,
                 imgUrl: bgimgUrl
+            }, function(data) {
+                alert(data)
+                location.reload();
+            })
+        }
+
+        function addex() {
+            var bgname = $("#bgname1").val();
+            var exname = $("#exname1").val();
+            $.post('/addExtension', {
+                bgname: bgname,
+                exname: exname
+            }, function(data) {
+                alert(data)
+                location.reload();
+            })
+        }
+
+        function addCollection() {
+            var bgname = $("#bgname2").val();
+            $.post('/addCollection', {
+                bgname: bgname
             }, function(data) {
                 alert(data)
                 location.reload();
