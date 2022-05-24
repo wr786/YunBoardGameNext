@@ -18,6 +18,7 @@ def index():
     with open("data.json") as f:
         data = json.loads(f.read())
     users = db.get_all_users()
+    users = [db.User(u) for u in users]
     plays = db.get_all_plays()
     userData = {}
     for user in users:
@@ -33,14 +34,14 @@ def index():
             playDataByDate[date] = []
         boardGame = db.get_board_game_by_id(play.bgid)
         scores = []
-        for score in play.scoreboard:
+        for score in json.loads(play.scoreboard):
             tmpScore = {}
             for uid in score.keys():
                 user = db.get_user_by_uid(int(uid))
                 tmpScore[user.name] = score[uid]
             scores.append(tmpScore)
         orders = []
-        for order in play.order:
+        for order in json.loads(play.order):
             tmpOrder = {}
             for uid in order.keys():
                 user = db.get_user_by_uid(int(uid))
