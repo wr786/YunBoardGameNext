@@ -135,7 +135,7 @@ def get_board_game_by_name(name):
 def get_board_game_by_id(bgid):
     session = DBSession()
     board_game = session.execute(f"""
-        SELECT * from boardGame where bgid={bgid}'
+        SELECT * from boardGame where bgid={bgid}
     """).fetchone()
     # board_game = session.query(BoardGame).filter(BoardGame.bgid==bgid).one()
     return board_game
@@ -152,10 +152,8 @@ def get_all_board_games():
 def modify_avatar_url(name, avatarUrl):
     session = DBSession()
     session.execute(f"""
-        INSERT into user(name, avatarUrl)
-        values('{escape_string(name)}', '{escape_string(avatarUrl)}')
-        on duplicate key update
-        avatarUrl = '{escape_string(avatarUrl)}'
+        UPDATE user SET avatarUrl = '{escape_string(avatarUrl)}'
+        where name = '{escape_string(name)}'
     """)
     # user = session.query(User).filter(User.name==name).one()
     # user.avatarUrl = avatarUrl
@@ -174,16 +172,10 @@ def get_all_plays():
 
 def add_play(date, bgid, winnerid, loserid, scoreboard, order):
     session = DBSession()
+    print(json.dumps(scoreboard))
     session.execute(f"""
-        REPLACE into play(time, bgid, winnerid, loserid, scoreboard, order)
-        values(
-            '{escape_string(datetime.datetime.strptime(date, "%Y-%m-%d"))}',
-            {bgid},
-            {winnerid},
-            {loserid},
-            {json.dumps(scoreboard)},
-            {json.dumps(order)}
-        )
+        REPLACE into play(time, bgid, winnerid, loserid, scoreboard, `order`)
+        values('{datetime.datetime.strptime(date, "%Y-%m-%d")}', {bgid}, {winnerid}, {loserid}, '{json.dumps(scoreboard)}', '{json.dumps(order)}')
     """)
     # session.add(Play(
     #     time=datetime.datetime.strptime(date, "%Y-%m-%d"), 
